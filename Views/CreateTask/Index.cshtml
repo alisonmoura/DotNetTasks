@@ -8,23 +8,23 @@
 
 
 <div class="text-center">
-    <h1 class="display-4">@ViewData["Title"]</h1>
+    <h1 class="display-4">🎯 @ViewData["Title"]</h1>
 </div>
 <div class="container">
     <form class="row" method="post" asp-action="Save" asp-controller="CreateTask">
         <!-- Id -->
-        <div class="form-group col col-3 col-lg-1">
+        <div class="form-group col col-3 col-lg-1 mt-2">
             <label for="inputId">Id</label>
             <input type="text" class="form-control" id="inputId" placeholder="Id" value="@Model.Id" disabled>
         </div>
         <!-- Title -->
-        <div class="form-group col col-9 col-lg-9">
+        <div class="form-group col col-9 col-lg-9 mt-2">
             <label for="inputTitle">Title</label>
             <input type="text" class="form-control" id="inputTitle" placeholder="Title" name="Title"
                 value="@Model.Title">
         </div>
         <!-- Due Date -->
-        <div class="form-group col col-12 col-lg-2">
+        <div class="form-group col col-12 col-lg-2 mt-2">
             <label for="inputDueDate">Due date</label>
             <input type="date" class="form-control" id="inputDueDate" placeholder="Due date" name="DueDate"
                 value="@Model.DueDateFmt">
@@ -33,7 +33,8 @@
         @if (Model.EditMode)
         {
             <div class="form-group col col-12 col-lg-12 mt-2">
-                <select class="selectpicker form-control w-100" data-style="border" name="Status">
+                <label for="selectStatus">Status</label>
+                <select id="selectStatus" class="selectpicker form-control w-100" data-style="border" name="Status">
                     @foreach (var status in Model.StatusList)
                     {
                         @if (status == Model.Status.ToString())
@@ -49,7 +50,7 @@
             </div>
         }
         <!-- Description -->
-        <div class="form-group col col-12">
+        <div class="form-group col col-12 mt-2">
             <label for="textAreaDescription">Description</label>
             <textarea class="form-control" id="textAreaDescription" placeholder="Description" style="min-height: 200px;"
                 name="Description">@Model.Description</textarea>
@@ -69,10 +70,10 @@
         <!-- Buttons -->
         <div class="d-flex flex-wrap mt-3">
             <button type="submit" class="btn btn-primary w-100">
-                @ViewData["SaveBtnTitle"]
+                💾 @ViewData["SaveBtnTitle"]
             </button>
-            <button type="submit" class="btn btn-light mt-2 w-100" asp-controller="Home" asp-action="Index"> ⇦
-                Back
+            <button type="submit" class="btn btn-light mt-2 w-100" asp-controller="Home" asp-action="Index">
+                👈 Back
             </button>
         </div>
     </form>

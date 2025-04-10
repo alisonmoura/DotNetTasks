@@ -1,5 +1,8 @@
-# DotNetTasks
-📦 ASP.NET Core MVC Application
+# 📦 DotNetTasks
+
+An ASP.NET Core MVC Application
+
+## Intro
 
 This is a simple ASP.NET Core MVC application built with .NET Core.
 For study purpose only.

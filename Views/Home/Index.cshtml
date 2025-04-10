@@ -4,7 +4,7 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">DotNetTasks</h1>
+    <h1 class="display-4">📦 DotNetTasks</h1>
 </div>
 
 <div class="d-flex justify-content-center mt-5">
@@ -34,7 +34,9 @@
                         <td>@task.Status</td>
                         <td>@task.DueDate</td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", "CreateTask", new { Id = task.Id })
+                            <span class="app-link-icon me-1" title="Edit">@Html.ActionLink("✏️", "Edit", "CreateTask", new { Id = task.Id })</span>
+                            <span class="app-link-icon me-1" title="Cancel">@Html.ActionLink("🚫", "Cancel", "CreateTask", new { Id = task.Id })</span>
+                            <span class="app-link-icon me-1" title="Mark as Done">@Html.ActionLink("✅", "Done", "CreateTask", new { Id = task.Id })</span>
                         </td>
                     </tr>
                 }
