@@ -21,6 +21,7 @@ body {
   margin-bottom: 60px;
 }
 
-.app-link-icon a{
+.app-link-icon a, button a {
   text-decoration: none !important;
+  color: inherit;
 }

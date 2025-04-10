@@ -75,6 +75,13 @@
             <button type="submit" class="btn btn-light mt-2 w-100" asp-controller="Home" asp-action="Index">
                 👈 Back
             </button>
+            @if (Model.EditMode)
+            {
+                <button type="button" class="btn btn-outline-danger mt-2 w-100"
+                    onclick="location.href='@Url.Action("Delete", "CreateTask", new { Id = Model.Id })'">
+                    🗑️ Remove
+                </button>
+            }
         </div>
     </form>
 </div>

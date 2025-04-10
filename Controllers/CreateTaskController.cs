@@ -42,6 +42,18 @@ public class CreateTaskController(DotNetTaskDbContext db) : Controller
     }
 
     [HttpGet]
+    public async Task<IActionResult> Delete([FromRoute] int? Id)
+    {
+        Models.Task? task = await _db.Tasks.Where(t => t.Id == Id).FirstOrDefaultAsync();
+        if (task != null)
+        {
+            _db.Remove(task);
+            await _db.SaveChangesAsync();
+        }
+        return RedirectToAction("Index", "Home");
+    }
+
+    [HttpGet]
     public async Task<IActionResult> Edit([FromRoute] int? Id)
     {
         Models.Task? task = await _db.Tasks.Where(t => t.Id == Id).FirstOrDefaultAsync();
