@@ -7,16 +7,30 @@
     <h1 class="display-4">📦 DotNetTasks</h1>
 </div>
 
-<div class="d-flex justify-content-center mt-5">
-    <div class="w-50 d-flex justify-content-end">
-        <form>
-            <button asp-action="Index" asp-controller="CreateTask" type="button pe-5"
-                class="btn btn-primary">Add</button>
-        </form>
+<!-- Add Button -->
+<!-- Table -->
+<div class="row px-3 mt-5">
+    <div class="col col-12 col-lg-8 offset-lg-2 mt-2 px-0">
+        <div class="w-100 d-flex justify-content-between">
+                <form class="d-flex" method="get" asp-action="Index" asp-controller="Home">
+                    <input
+                        name="Title"
+                        type="text"
+                        class="form-control"
+                        id="inputSearchTitle"
+                        placeholder="Title"
+                        value="@Model.SearchTitle"/>
+                    <button type="submit" class="btn btn-success px-3 ms-1">Search</button>
+                    <button type="button" class="btn btn-light px-3 ms-1"onclick="location.href='@Url.Action("Index", "Home")'">
+                        Clear
+                    </button>
+                </form>
+                <button type="button" class="btn btn-outline-primary px-3"onclick="location.href='@Url.Action("Index", "CreateTask")'">
+                    + Add
+                </button>
+        </div>
     </div>
-</div>
-<div class="d-flex justify-content-center mt-1">
-    <div class="card w-50">
+    <div class="card col col-12 col-lg-8 offset-lg-2 mt-2">
         <table class="card-body table">
             <thead>
                 <tr>

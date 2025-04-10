@@ -12,7 +12,12 @@ public class CreateTaskController(DotNetTaskDbContext db) : Controller
     public async Task<IActionResult> Index()
     {
         int? lastId = await _db.Tasks.Select(t => t.Id).OrderDescending().FirstOrDefaultAsync();
-        return View(new CreateTaskViewModel { Id = lastId.HasValue ? lastId.Value + 1 : 1, EditMode = false });
+        return View(new CreateTaskViewModel
+        {
+            Id = lastId.HasValue ? lastId.Value + 1 : null,
+            EditMode = false,
+            DueDateFmt = DateTime.Now.ToString("yyyy-MM-dd"),
+        });
     }
 
     [HttpGet]

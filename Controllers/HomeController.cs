@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DotNetTask.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace DotNetTask.Controllers;
 
@@ -9,18 +8,15 @@ public class HomeController(DotNetTaskDbContext db) : Controller
 {
     private readonly DotNetTaskDbContext _db = db;
 
-    public IActionResult Index()
+    public IActionResult Index([FromQuery] string? Title)
     {
-        var tasks = _db.Tasks
-        .OrderBy(t => t.DueDate)
-        .Select(t => new HomeViewModelTask
+        var tasks = SearchTasks(Title);
+        return View(new HomeViewModel
         {
-            Id = t.Id,
-            Title = t.Title,
-            Status = t.Status,
-            DueDate = t.DueDate.ToString("yyyy/MM/dd")
-        }).ToArray();
-        return View(new HomeViewModel { Tasks = tasks, Count = tasks.Length });
+            Tasks = tasks,
+            Count = tasks.Length,
+            SearchTitle = Title ?? ""
+        });
     }
 
     public IActionResult Privacy()
@@ -37,5 +33,22 @@ public class HomeController(DotNetTaskDbContext db) : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    private HomeViewModelTask[] SearchTasks(string? SearchTitle)
+    {
+        var searchTitle = SearchTitle ?? "";
+        var tasks = _db.Tasks
+            .Where((t) => t.Title.Contains(searchTitle, StringComparison.CurrentCultureIgnoreCase))
+            .OrderBy(t => t.DueDate);
+
+        return tasks
+            .Select(t => new HomeViewModelTask
+            {
+                Id = t.Id,
+                Title = t.Title,
+                Status = t.Status,
+                DueDate = t.DueDate.ToString("yyyy/MM/dd")
+            }).ToArray();
     }
 }
