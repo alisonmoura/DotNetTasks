@@ -1,0 +1,92 @@
+@model CreateTaskViewModel
+@{
+    ViewData["Title"] = Model.EditMode ? "Edit Task" : "New Task";
+    ViewData["SaveBtnTitle"] = Model.EditMode ? "Save Changes" : "Create";
+}
+<link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
+
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+<div class="container">
+    <form class="row" method="post" asp-action="Save" asp-controller="CreateTask">
+        <!-- Id -->
+        <div class="form-group col col-3 col-lg-1">
+            <label for="inputId">Id</label>
+            <input type="text" class="form-control" id="inputId" placeholder="Id" value="@Model.Id" disabled>
+        </div>
+        <!-- Title -->
+        <div class="form-group col col-9 col-lg-9">
+            <label for="inputTitle">Title</label>
+            <input type="text" class="form-control" id="inputTitle" placeholder="Title" name="Title"
+                value="@Model.Title">
+        </div>
+        <!-- Due Date -->
+        <div class="form-group col col-12 col-lg-2">
+            <label for="inputDueDate">Due date</label>
+            <input type="date" class="form-control" id="inputDueDate" placeholder="Due date" name="DueDate"
+                value="@Model.DueDateFmt">
+        </div>
+        <!-- Status -->
+        @if (Model.EditMode)
+        {
+            <div class="form-group col col-12 col-lg-12 mt-2">
+                <select class="selectpicker form-control w-100" data-style="border" name="Status">
+                    @foreach (var status in Model.StatusList)
+                    {
+                        @if (status == Model.Status.ToString())
+                        {
+                            <option selected>@status</option>
+                        }
+                        else
+                        {
+                            <option>@status</option>
+                        }
+                    }
+                </select>
+            </div>
+        }
+        <!-- Description -->
+        <div class="form-group col col-12">
+            <label for="textAreaDescription">Description</label>
+            <textarea class="form-control" id="textAreaDescription" placeholder="Description" style="min-height: 200px;"
+                name="Description">@Model.Description</textarea>
+        </div>
+        <!-- Done -->
+        @if (!Model.EditMode)
+        {
+            <div class="form-check d-flex justify-content-end mt-2">
+                <input type="checkbox" class="form-check-input" id="checkDone" name="MarkAsDone">
+                <label class="form-check-label ms-2" for="checkDone">Mark as done</label>
+            </div>
+        }
+        <!-- Mode (hidden) -->
+        <input type="hidden" name="Mode" value="@(Model.EditMode ? "Edit" : "New")">
+        <!-- Id (hidden) -->
+        <input type="hidden" name="Id" value="@Model.Id">
+        <!-- Buttons -->
+        <div class="d-flex flex-wrap mt-3">
+            <button type="submit" class="btn btn-primary w-100">
+                @ViewData["SaveBtnTitle"]
+            </button>
+            <button type="submit" class="btn btn-light mt-2 w-100" asp-controller="Home" asp-action="Index"> ⇦
+                Back
+            </button>
+        </div>
+    </form>
+</div>
+<!-- SCRIPT(for bootstrap-select) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"
+    integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.1/js/bootstrap.js"
+    integrity="sha512-9fMNGl7JQrJnqWwQ2a4I2xSDXphpn0Mjq0OY1ZMyWwrbYppp2/iybI8beVLvviaxHTcOxewp7bNtt5ou/9tQeA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".selectpicker").selectpicker();
+    })
+</script>
