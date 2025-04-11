@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DotNetTask.Controllers;
 
-public class HomeController(DotNetTaskDbContext db) : Controller
+public class HomeController(ApplicationDbContext db) : Controller
 {
-    private readonly DotNetTaskDbContext _db = db;
+    private readonly ApplicationDbContext _db = db;
 
     public IActionResult Index([FromQuery] string? Title, [FromQuery] string? Status)
     {
@@ -39,7 +39,7 @@ public class HomeController(DotNetTaskDbContext db) : Controller
 
     private HomeViewModelTask[] SearchTasks(string? SearchTitle, string? SearchStatus)
     {
-        var tasks = _db.Tasks
+        var tasks = _db.TaskItems
             .Where((t) => SearchTitle == "" || EF.Functions.Like(t.Title, $"%{SearchTitle}%"))
             .Where((t) => SearchStatus == "" || EF.Functions.Like(t.Status.ToString(), $"%{SearchStatus}%"))
             .OrderBy(t => t.DueDate);

@@ -1,4 +1,7 @@
 using DotNetTask.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Adds DbContext
-builder.Services.AddDbContext<DotNetTaskDbContext>();
+builder.Services.AddDbContext<ApplicationDbContext>(option =>
+    option.UseInMemoryDatabase("DotNetTask"));
+
+// Adds Identity
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
 
 var app = builder.Build();
 
@@ -23,6 +33,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Middleware
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

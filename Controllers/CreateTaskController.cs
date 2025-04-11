@@ -4,14 +4,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DotNetTask.Controllers;
 
-public class CreateTaskController(DotNetTaskDbContext db) : Controller
+public class CreateTaskController(ApplicationDbContext db) : Controller
 {
-    private readonly DotNetTaskDbContext _db = db;
+    private readonly ApplicationDbContext _db = db;
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        int? lastId = await _db.Tasks.Select(t => t.Id).OrderDescending().FirstOrDefaultAsync();
+        int? lastId = await _db.TaskItems
+            .AsNoTracking()
+            .OrderByDescending(t => t.Id)
+            .Select(t => t.Id)
+            .FirstOrDefaultAsync();
+
         return View(new CreateTaskViewModel
         {
             Id = lastId.HasValue ? lastId.Value + 1 : null,
@@ -23,7 +28,7 @@ public class CreateTaskController(DotNetTaskDbContext db) : Controller
     [HttpGet]
     public async Task<IActionResult> Done([FromRoute] int? Id)
     {
-        Models.Task? task = await _db.Tasks.Where(t => t.Id == Id).FirstOrDefaultAsync();
+        TaskItem? task = await _db.TaskItems.Where(t => t.Id == Id).FirstOrDefaultAsync();
         if (task != null)
         {
             task.Status = TaskStatusEnum.DONE;
@@ -36,7 +41,7 @@ public class CreateTaskController(DotNetTaskDbContext db) : Controller
     [HttpGet]
     public async Task<IActionResult> Cancel([FromRoute] int? Id)
     {
-        Models.Task? task = await _db.Tasks.Where(t => t.Id == Id).FirstOrDefaultAsync();
+        TaskItem? task = await _db.TaskItems.Where(t => t.Id == Id).FirstOrDefaultAsync();
         if (task != null)
         {
             task.Status = TaskStatusEnum.CANCELED;
@@ -49,7 +54,7 @@ public class CreateTaskController(DotNetTaskDbContext db) : Controller
     [HttpGet]
     public async Task<IActionResult> Delete([FromRoute] int? Id)
     {
-        Models.Task? task = await _db.Tasks.Where(t => t.Id == Id).FirstOrDefaultAsync();
+        TaskItem? task = await _db.TaskItems.Where(t => t.Id == Id).FirstOrDefaultAsync();
         if (task != null)
         {
             _db.Remove(task);
@@ -61,7 +66,7 @@ public class CreateTaskController(DotNetTaskDbContext db) : Controller
     [HttpGet]
     public async Task<IActionResult> Edit([FromRoute] int? Id)
     {
-        Models.Task? task = await _db.Tasks.Where(t => t.Id == Id).FirstOrDefaultAsync();
+        TaskItem? task = await _db.TaskItems.Where(t => t.Id == Id).FirstOrDefaultAsync();
         if (task != null)
         {
             return View("Index", new CreateTaskViewModel
@@ -83,7 +88,7 @@ public class CreateTaskController(DotNetTaskDbContext db) : Controller
     [HttpPost]
     public async Task<IActionResult> Save(CreateTaskViewModel ViewModel)
     {
-        var task = new Models.Task
+        var task = new TaskItem
         {
             Title = ViewModel.Title,
             Description = ViewModel.Description,
