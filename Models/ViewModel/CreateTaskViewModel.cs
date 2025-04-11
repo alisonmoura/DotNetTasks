@@ -11,12 +11,4 @@ public class CreateTaskViewModel
     public string MarkAsDone { get; set; } = "";
     public bool EditMode { get; set; } = false;
     public string Mode { get; set; } = "New"; // New, Edit
-    public string[] StatusList { get; set; } =
-    [
-        TaskStatusEnum.PENDING.ToString(),
-        TaskStatusEnum.DOING.ToString(),
-        TaskStatusEnum.DONE.ToString(),
-        TaskStatusEnum.OVERDUE.ToString(),
-        TaskStatusEnum.CANCELED.ToString(),
-    ];
 }

@@ -35,9 +35,9 @@
             <div class="form-group col col-12 col-lg-12 mt-2">
                 <label for="selectStatus">Status</label>
                 <select id="selectStatus" class="selectpicker form-control w-100" data-style="border" name="Status">
-                    @foreach (var status in Model.StatusList)
+                    @foreach (var status in Enum.GetValues(typeof(TaskStatusEnum)))
                     {
-                        @if (status == Model.Status.ToString())
+                        @if (status.ToString() == Model.Status.ToString())
                         {
                             <option selected>@status</option>
                         }

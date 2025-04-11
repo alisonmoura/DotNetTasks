@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DotNetTask.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotNetTask.Controllers;
 
@@ -8,14 +9,15 @@ public class HomeController(DotNetTaskDbContext db) : Controller
 {
     private readonly DotNetTaskDbContext _db = db;
 
-    public IActionResult Index([FromQuery] string? Title)
+    public IActionResult Index([FromQuery] string? Title, [FromQuery] string? Status)
     {
-        var tasks = SearchTasks(Title);
+        var tasks = SearchTasks(Title, Status);
         return View(new HomeViewModel
         {
             Tasks = tasks,
             Count = tasks.Length,
-            SearchTitle = Title ?? ""
+            SearchTitle = Title ?? "",
+            SearchStatus = Status ?? ""
         });
     }
 
@@ -35,11 +37,11 @@ public class HomeController(DotNetTaskDbContext db) : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    private HomeViewModelTask[] SearchTasks(string? SearchTitle)
+    private HomeViewModelTask[] SearchTasks(string? SearchTitle, string? SearchStatus)
     {
-        var searchTitle = SearchTitle ?? "";
         var tasks = _db.Tasks
-            .Where((t) => t.Title.Contains(searchTitle, StringComparison.CurrentCultureIgnoreCase))
+            .Where((t) => SearchTitle == "" || EF.Functions.Like(t.Title, $"%{SearchTitle}%"))
+            .Where((t) => SearchStatus == "" || EF.Functions.Like(t.Status.ToString(), $"%{SearchStatus}%"))
             .OrderBy(t => t.DueDate);
 
         return tasks

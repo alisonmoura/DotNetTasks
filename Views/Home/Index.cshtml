@@ -7,8 +7,6 @@
     <h1 class="display-4">📦 DotNetTasks</h1>
 </div>
 
-<!-- Add Button -->
-<!-- Table -->
 <div class="row px-3 mt-5">
     <div class="col col-12 col-lg-8 offset-lg-2 mt-2 px-0">
         <div class="w-100 d-flex justify-content-between">
@@ -20,17 +18,33 @@
                         id="inputSearchTitle"
                         placeholder="Title"
                         value="@Model.SearchTitle"/>
+                    <select id="selectStatus" class="selectpicker form-control ms-1" data-style="border" name="Status">
+                        <option value="">Select...</option>
+                        @foreach (var status in Enum.GetValues(typeof(TaskStatusEnum)))
+                        {
+                            @if (status.ToString() == Model.SearchStatus)
+                            {
+                                <option selected>@status</option>
+                            }
+                            else
+                            {
+                                <option>@status</option>
+                            }
+                        }
+                    </select>
                     <button type="submit" class="btn btn-success px-3 ms-1">Search</button>
                     <button type="button" class="btn btn-light px-3 ms-1"onclick="location.href='@Url.Action("Index", "Home")'">
                         Clear
                     </button>
                 </form>
+                <!-- Add Button -->
                 <button type="button" class="btn btn-outline-primary px-3"onclick="location.href='@Url.Action("Index", "CreateTask")'">
                     + Add
                 </button>
         </div>
     </div>
     <div class="card col col-12 col-lg-8 offset-lg-2 mt-2">
+        <!-- Table -->
         <table class="card-body table">
             <thead>
                 <tr>

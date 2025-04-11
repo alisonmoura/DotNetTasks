@@ -13,4 +13,5 @@ public class HomeViewModel
     public int Count { get; set; }
     public required HomeViewModelTask[] Tasks { get; set; }
     public string SearchTitle { get; set; } = "";
+    public string SearchStatus { get; set; } = "";
 }
