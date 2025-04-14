@@ -1,4 +1,4 @@
-namespace DotNetTask.Models;
+namespace DotNetTask.Data.Entities;
 
 public class TaskItem
 {

@@ -1,4 +1,4 @@
-﻿@model HomeViewModel
+﻿@model DotNetTask.Web.ModelView.HomeViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -20,7 +20,7 @@
                         value="@Model.SearchTitle"/>
                     <select id="selectStatus" class="selectpicker form-control ms-1" data-style="border" name="Status">
                         <option value="">Select...</option>
-                        @foreach (var status in Enum.GetValues(typeof(TaskStatusEnum)))
+                        @foreach (var status in Model.StatusOptions)
                         {
                             @if (status.ToString() == Model.SearchStatus)
                             {

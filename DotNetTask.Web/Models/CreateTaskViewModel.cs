@@ -1,4 +1,6 @@
-namespace DotNetTask.Models;
+using DotNetTask.Data.Entities;
+
+namespace DotNetTask.Web.ModelView;
 
 public class CreateTaskViewModel
 {
@@ -11,4 +13,5 @@ public class CreateTaskViewModel
     public string MarkAsDone { get; set; } = "";
     public bool EditMode { get; set; } = false;
     public string Mode { get; set; } = "New"; // New, Edit
+    public Array StatusOptions { get; set; } = Enum.GetValues(typeof(TaskStatusEnum));
 }

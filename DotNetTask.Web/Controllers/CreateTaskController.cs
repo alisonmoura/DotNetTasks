@@ -1,8 +1,10 @@
-using DotNetTask.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using DotNetTask.Data;
+using DotNetTask.Data.Entities;
+using DotNetTask.Web.ModelView;
 
-namespace DotNetTask.Controllers;
+namespace DotNetTask.Web.Controllers;
 
 public class CreateTaskController(ApplicationDbContext db) : Controller
 {

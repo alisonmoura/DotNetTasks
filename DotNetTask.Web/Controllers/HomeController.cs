@@ -1,9 +1,10 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using DotNetTask.Models;
 using Microsoft.EntityFrameworkCore;
+using DotNetTask.Data;
+using DotNetTask.Web.ModelView;
 
-namespace DotNetTask.Controllers;
+namespace DotNetTask.Web.Controllers;
 
 public class HomeController(ApplicationDbContext db) : Controller
 {

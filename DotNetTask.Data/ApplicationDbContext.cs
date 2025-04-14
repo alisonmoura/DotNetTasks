@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using DotNetTask.Data.Entities;
 
-namespace DotNetTask.Models;
+namespace DotNetTask.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {

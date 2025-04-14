@@ -1,4 +1,6 @@
-namespace DotNetTask.Models;
+using DotNetTask.Data.Entities;
+
+namespace DotNetTask.Web.ModelView;
 
 public class HomeViewModelTask
 {
@@ -14,4 +16,5 @@ public class HomeViewModel
     public required HomeViewModelTask[] Tasks { get; set; }
     public string SearchTitle { get; set; } = "";
     public string SearchStatus { get; set; } = "";
+    public Array StatusOptions { get; set; } = Enum.GetValues(typeof(TaskStatusEnum));
 }

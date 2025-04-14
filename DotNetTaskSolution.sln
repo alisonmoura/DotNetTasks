@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTask.Web", "DotNetTask.Web\DotNetTask.Web.csproj", "{95B39057-BB65-4923-83FF-70D3BA2F03DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTask.Services", "DotNetTask.Services\DotNetTask.Services.csproj", "{BC983A76-001F-414D-B91E-5AB051B57547}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTask.Data", "DotNetTask.Data\DotNetTask.Data.csproj", "{C258C386-A3DA-4DB8-8200-8F5BBC50B1FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95B39057-BB65-4923-83FF-70D3BA2F03DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95B39057-BB65-4923-83FF-70D3BA2F03DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95B39057-BB65-4923-83FF-70D3BA2F03DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95B39057-BB65-4923-83FF-70D3BA2F03DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC983A76-001F-414D-B91E-5AB051B57547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC983A76-001F-414D-B91E-5AB051B57547}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC983A76-001F-414D-B91E-5AB051B57547}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC983A76-001F-414D-B91E-5AB051B57547}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C258C386-A3DA-4DB8-8200-8F5BBC50B1FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C258C386-A3DA-4DB8-8200-8F5BBC50B1FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C258C386-A3DA-4DB8-8200-8F5BBC50B1FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C258C386-A3DA-4DB8-8200-8F5BBC50B1FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
