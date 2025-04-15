@@ -1,4 +1,4 @@
-using DotNetTask.Data.Entities;
+using DotNetTask.Data.Enums;
 
 namespace DotNetTask.Web.ModelView;
 

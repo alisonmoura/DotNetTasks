@@ -4,13 +4,8 @@ using DotNetTask.Data.Entities;
 
 namespace DotNetTask.Data;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
-
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-    {
-    }
     public DbSet<TaskItem> TaskItems { get; set; }
 
 }

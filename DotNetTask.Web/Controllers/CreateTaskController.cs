@@ -1,23 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DotNetTask.Data;
 using DotNetTask.Data.Entities;
+using DotNetTask.Data.Enums;
 using DotNetTask.Web.ModelView;
+using DotNetTask.Services.Interfaces;
 
 namespace DotNetTask.Web.Controllers;
 
-public class CreateTaskController(ApplicationDbContext db) : Controller
+public class CreateTaskController(ITaskService service) : Controller
 {
-    private readonly ApplicationDbContext _db = db;
+    private readonly ITaskService _service = service;
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        int? lastId = await _db.TaskItems
-            .AsNoTracking()
-            .OrderByDescending(t => t.Id)
-            .Select(t => t.Id)
-            .FirstOrDefaultAsync();
+        int? lastId = await _service.GetLastIdAsync();
 
         return View(new CreateTaskViewModel
         {
@@ -30,45 +26,28 @@ public class CreateTaskController(ApplicationDbContext db) : Controller
     [HttpGet]
     public async Task<IActionResult> Done([FromRoute] int? Id)
     {
-        TaskItem? task = await _db.TaskItems.Where(t => t.Id == Id).FirstOrDefaultAsync();
-        if (task != null)
-        {
-            task.Status = TaskStatusEnum.DONE;
-            _db.Update(task);
-            await _db.SaveChangesAsync();
-        }
+        await _service.MarkAsDoneAsync(Id ?? 0);
         return RedirectToAction("Index", "Home");
     }
 
     [HttpGet]
     public async Task<IActionResult> Cancel([FromRoute] int? Id)
     {
-        TaskItem? task = await _db.TaskItems.Where(t => t.Id == Id).FirstOrDefaultAsync();
-        if (task != null)
-        {
-            task.Status = TaskStatusEnum.CANCELED;
-            _db.Update(task);
-            await _db.SaveChangesAsync();
-        }
+        await _service.MarkAsCanceledAsync(Id ?? 0);
         return RedirectToAction("Index", "Home");
     }
 
     [HttpGet]
     public async Task<IActionResult> Delete([FromRoute] int? Id)
     {
-        TaskItem? task = await _db.TaskItems.Where(t => t.Id == Id).FirstOrDefaultAsync();
-        if (task != null)
-        {
-            _db.Remove(task);
-            await _db.SaveChangesAsync();
-        }
+        await _service.DeleteAsync(Id ?? 0);
         return RedirectToAction("Index", "Home");
     }
 
     [HttpGet]
     public async Task<IActionResult> Edit([FromRoute] int? Id)
     {
-        TaskItem? task = await _db.TaskItems.Where(t => t.Id == Id).FirstOrDefaultAsync();
+        var task = await _service.GetByIdAsync(Id ?? 0);
         if (task != null)
         {
             return View("Index", new CreateTaskViewModel
@@ -101,14 +80,13 @@ public class CreateTaskController(ApplicationDbContext db) : Controller
         if (ViewModel.Mode == "Edit")
         {
             task.Id = ViewModel.Id;
-            _db.Update(task);
+            await _service.UpdateAsync(task);
         }
         else
         {
-            _db.Add(task);
+            await _service.AddAsync(task);
 
         }
-        await _db.SaveChangesAsync();
         return RedirectToAction("Index", "Home");
     }
 

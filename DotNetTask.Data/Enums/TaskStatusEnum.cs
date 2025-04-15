@@ -1,4 +1,4 @@
-namespace DotNetTask.Data.Entities;
+namespace DotNetTask.Data.Enums;
 
 public enum TaskStatusEnum
 {

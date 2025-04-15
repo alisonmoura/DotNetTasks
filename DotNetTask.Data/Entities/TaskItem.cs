@@ -1,3 +1,5 @@
+using DotNetTask.Data.Enums;
+
 namespace DotNetTask.Data.Entities;
 
 public class TaskItem

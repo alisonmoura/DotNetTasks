@@ -1,24 +1,33 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DotNetTask.Data;
 using DotNetTask.Web.ModelView;
+using DotNetTask.Services.Filters;
+using DotNetTask.Services.Interfaces;
 
 namespace DotNetTask.Web.Controllers;
 
-public class HomeController(ApplicationDbContext db) : Controller
+public class HomeController(ITaskService service) : Controller
 {
-    private readonly ApplicationDbContext _db = db;
+    private readonly ITaskService _service = service;
 
-    public IActionResult Index([FromQuery] string? Title, [FromQuery] string? Status)
+    public IActionResult Index([FromQuery] TaskItemFilter filter)
     {
-        var tasks = SearchTasks(Title, Status);
+        filter.OrderBy = "duedate";
+        var tasks = _service.GetAllByFilterAsync(filter)
+            .Select(t => new HomeViewModelTask
+            {
+                Id = t.Id,
+                Title = t.Title,
+                Status = t.Status,
+                DueDate = t.DueDate.ToString("yyyy/MM/dd")
+            }).ToArray();
+
         return View(new HomeViewModel
         {
             Tasks = tasks,
             Count = tasks.Length,
-            SearchTitle = Title ?? "",
-            SearchStatus = Status ?? ""
+            SearchTitle = filter.Title ?? "",
+            SearchStatus = filter.Status.ToString() ?? ""
         });
     }
 
@@ -38,20 +47,20 @@ public class HomeController(ApplicationDbContext db) : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    private HomeViewModelTask[] SearchTasks(string? SearchTitle, string? SearchStatus)
-    {
-        var tasks = _db.TaskItems
-            .Where((t) => SearchTitle == "" || EF.Functions.Like(t.Title, $"%{SearchTitle}%"))
-            .Where((t) => SearchStatus == "" || EF.Functions.Like(t.Status.ToString(), $"%{SearchStatus}%"))
-            .OrderBy(t => t.DueDate);
+    // private HomeViewModelTask[] SearchTasks(string? SearchTitle, string? SearchStatus)
+    // {
+    //     var tasks = _db.TaskItems
+    //         .Where((t) => SearchTitle == "" || EF.Functions.Like(t.Title, $"%{SearchTitle}%"))
+    //         .Where((t) => SearchStatus == "" || EF.Functions.Like(t.Status.ToString(), $"%{SearchStatus}%"))
+    //         .OrderBy(t => t.DueDate);
 
-        return tasks
-            .Select(t => new HomeViewModelTask
-            {
-                Id = t.Id,
-                Title = t.Title,
-                Status = t.Status,
-                DueDate = t.DueDate.ToString("yyyy/MM/dd")
-            }).ToArray();
-    }
+    //     return tasks
+    //         .Select(t => new HomeViewModelTask
+    //         {
+    //             Id = t.Id,
+    //             Title = t.Title,
+    //             Status = t.Status,
+    //             DueDate = t.DueDate.ToString("yyyy/MM/dd")
+    //         }).ToArray();
+    // }
 }
