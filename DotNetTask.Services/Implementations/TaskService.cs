@@ -4,6 +4,7 @@ using DotNetTask.Data.Enums;
 using DotNetTask.Services.Interfaces;
 using DotNetTask.Services.Filters;
 using Microsoft.EntityFrameworkCore;
+using DotNetTask.Services.Exceptions;
 
 namespace DotNetTask.Services.Implementations;
 
@@ -47,6 +48,7 @@ public class TaskService(ApplicationDbContext context) : ITaskService
 
     public async Task AddAsync(TaskItem task)
     {
+        validate(task);
         _context.TaskItems.Add(task);
         await _context.SaveChangesAsync();
     }
@@ -56,9 +58,11 @@ public class TaskService(ApplicationDbContext context) : ITaskService
         var count = await _context.TaskItems.AsNoTracking().Where(t => t.Id == task.Id).CountAsync();
         if (count == 1)
         {
+            validate(task);
             _context.TaskItems.Update(task);
             await _context.SaveChangesAsync();
         }
+        else throw new BusinessException("Task not found.");
     }
 
     public async Task DeleteAsync(int id)
@@ -102,11 +106,13 @@ public class TaskService(ApplicationDbContext context) : ITaskService
             .FirstOrDefaultAsync();
     }
 
+    public void validate(TaskItem task)
+    {
+        if (String.IsNullOrEmpty(task.Title)) throw new BusinessException("The title must be informed.");
+    }
+
     public static IQueryable<TaskItem> ApplyOrdering(IQueryable<TaskItem> query, BaseFilter? filter)
     {
-
-        Console.WriteLine($"Sorting by: {filter?.OrderBy}, Direction: {filter?.OrderDirection}");
-
         if (filter is null)
             return query;
 

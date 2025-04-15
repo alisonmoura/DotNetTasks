@@ -3,6 +3,7 @@ using DotNetTask.Data.Entities;
 using DotNetTask.Data.Enums;
 using DotNetTask.Web.ModelView;
 using DotNetTask.Services.Interfaces;
+using DotNetTask.Services.Exceptions;
 
 namespace DotNetTask.Web.Controllers;
 
@@ -77,17 +78,26 @@ public class CreateTaskController(ITaskService service) : Controller
             DueDate = ViewModel.DueDate
         };
 
-        if (ViewModel.Mode == "Edit")
+        try
         {
-            task.Id = ViewModel.Id;
-            await _service.UpdateAsync(task);
-        }
-        else
-        {
-            await _service.AddAsync(task);
+            if (ViewModel.Mode == "Edit")
+            {
+                task.Id = ViewModel.Id;
+                await _service.UpdateAsync(task);
+            }
+            else
+            {
+                await _service.AddAsync(task);
 
+            }
+            return RedirectToAction("Index", "Home");
         }
-        return RedirectToAction("Index", "Home");
+        catch (BusinessException ex)
+        {
+            ViewModel.Error = ex.Message;
+            ViewModel.ShowError = true;
+            return View("Index", ViewModel);
+        }
     }
 
     private static TaskStatusEnum PrepareStatus(CreateTaskViewModel ViewModel)

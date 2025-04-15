@@ -25,3 +25,11 @@ body {
   text-decoration: none !important;
   color: inherit;
 }
+
+.hide {
+  opacity: 0;
+}
+
+.hide {
+  opacity: 1;
+}

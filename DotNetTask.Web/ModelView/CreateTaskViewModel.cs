@@ -14,4 +14,6 @@ public class CreateTaskViewModel
     public bool EditMode { get; set; } = false;
     public string Mode { get; set; } = "New"; // New, Edit
     public Array StatusOptions { get; set; } = Enum.GetValues(typeof(TaskStatusEnum));
+    public bool ShowError { get; set; } = false;
+    public string Error { get; set; } = "";
 }

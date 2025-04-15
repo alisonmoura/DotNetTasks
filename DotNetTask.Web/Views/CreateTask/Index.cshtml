@@ -3,6 +3,14 @@
     ViewData["Title"] = Model.EditMode ? "Edit Task" : "New Task";
     ViewData["SaveBtnTitle"] = Model.EditMode ? "Save Changes" : "Create";
 }
+@if (Model.ShowError)
+{
+    <div class="alert alert-danger d-flex justify-content-between animate__animated animate__fadeInDown animate__faster"
+        role="alert">
+        @Model.Error
+        <span aria-hidden="true" style="cursor: pointer;" onclick="closeAlert()">&times;</span>
+    </div>
+}
 <div class="text-center">
     <h1 class="display-4">🎯 @ViewData["Title"]</h1>
 </div>
@@ -81,3 +89,11 @@
         </div>
     </form>
 </div>
+<script>
+    function closeAlert() {
+        document.querySelector(".alert").classList.add("animate__fadeOutUp");
+        setTimeout(() => {
+            document.querySelector(".alert").classList.add("d-none");
+        }, 450);
+    }
+</script>
