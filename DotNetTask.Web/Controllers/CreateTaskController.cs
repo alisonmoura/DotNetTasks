@@ -96,6 +96,7 @@ public class CreateTaskController(ITaskService service) : Controller
         {
             ViewModel.Error = ex.Message;
             ViewModel.ShowError = true;
+            ViewModel.ErrorFields = ex.Fields;
             return View("Index", ViewModel);
         }
     }

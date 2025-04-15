@@ -108,7 +108,8 @@ public class TaskService(ApplicationDbContext context) : ITaskService
 
     public void validate(TaskItem task)
     {
-        if (String.IsNullOrEmpty(task.Title)) throw new BusinessException("The title must be informed.");
+        if (string.IsNullOrEmpty(task.Title))
+            throw new BusinessException("The title must be informed.", new Dictionary<string, bool> { ["title"] = true });
     }
 
     public static IQueryable<TaskItem> ApplyOrdering(IQueryable<TaskItem> query, BaseFilter? filter)

@@ -5,7 +5,7 @@
 }
 @if (Model.ShowError)
 {
-    <div class="alert alert-danger d-flex justify-content-between animate__animated animate__fadeInDown animate__faster"
+    <div class="alert alert-danger d-flex justify-content-between animate__animated animate__faster animate__fadeInDown"
         role="alert">
         @Model.Error
         <span aria-hidden="true" style="cursor: pointer;" onclick="closeAlert()">&times;</span>
@@ -24,8 +24,9 @@
         <!-- Title -->
         <div class="form-group col col-9 col-lg-9 mt-2">
             <label for="inputTitle">Title</label>
-            <input type="text" class="form-control" id="inputTitle" placeholder="Title" name="Title"
-                value="@Model.Title">
+            <input type="text"
+                class="form-control animate__animated animate__faster @(@Model.ErrorFields.GetValueOrDefault("title") ? "border-danger animate__headShake" : "")"
+                id="inputTitle" placeholder="Title" name="Title" value="@Model.Title">
         </div>
         <!-- Due Date -->
         <div class="form-group col col-12 col-lg-2 mt-2">

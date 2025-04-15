@@ -16,4 +16,5 @@ public class CreateTaskViewModel
     public Array StatusOptions { get; set; } = Enum.GetValues(typeof(TaskStatusEnum));
     public bool ShowError { get; set; } = false;
     public string Error { get; set; } = "";
+    public Dictionary<string, bool> ErrorFields { get; set; } = [];
 }
