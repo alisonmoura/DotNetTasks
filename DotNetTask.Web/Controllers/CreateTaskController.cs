@@ -97,6 +97,7 @@ public class CreateTaskController(ITaskService service) : Controller
             ViewModel.Error = ex.Message;
             ViewModel.ShowError = true;
             ViewModel.ErrorFields = ex.Fields;
+            ViewModel.DueDateFmt = ViewModel.DueDate.ToString("yyyy-MM-dd");
             return View("Index", ViewModel);
         }
     }
