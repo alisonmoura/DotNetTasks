@@ -1,6 +1,7 @@
 using DotNetTask.Data;
 using DotNetTask.Data.Entities;
 using DotNetTask.Data.Enums;
+using DotNetTask.Data.Resources;
 using DotNetTask.Services.Interfaces;
 using DotNetTask.Services.Filters;
 using Microsoft.EntityFrameworkCore;
@@ -48,7 +49,7 @@ public class TaskService(ApplicationDbContext context) : ITaskService
 
     public async Task AddAsync(TaskItem task)
     {
-        validate(task);
+        Validate(task);
         _context.TaskItems.Add(task);
         await _context.SaveChangesAsync();
     }
@@ -58,7 +59,7 @@ public class TaskService(ApplicationDbContext context) : ITaskService
         var count = await _context.TaskItems.AsNoTracking().Where(t => t.Id == task.Id).CountAsync();
         if (count == 1)
         {
-            validate(task);
+            Validate(task);
             _context.TaskItems.Update(task);
             await _context.SaveChangesAsync();
         }
@@ -106,10 +107,26 @@ public class TaskService(ApplicationDbContext context) : ITaskService
             .FirstOrDefaultAsync();
     }
 
-    public void validate(TaskItem task)
+    public void Validate(TaskItem task)
     {
+        var errors = new Dictionary<string, List<string>>();
+        var titleErrors = new List<string>();
+
         if (string.IsNullOrEmpty(task.Title))
-            throw new BusinessException("The title must be informed.", new Dictionary<string, bool> { ["title"] = true });
+            titleErrors.Add(ValidationMessages.RequiredTitle);
+        if (!string.IsNullOrEmpty(task.Title) && task.Title.Length < 3)
+            titleErrors.Add(ValidationMessages.MinLengthTitle);
+        if (titleErrors.Count > 0) errors.Add("Title", titleErrors);
+
+        if (errors.Count > 0)
+        {
+            throw new BusinessException
+            (
+                ValidationMessages.ValidationFailed,
+                errors
+            );
+        }
+
     }
 
     public static IQueryable<TaskItem> ApplyOrdering(IQueryable<TaskItem> query, BaseFilter? filter)

@@ -3,7 +3,7 @@ using DotNetTask.Services.Filters;
 
 namespace DotNetTask.Services.Interfaces;
 
-public interface ITaskService
+public interface ITaskService : IBaseService<TaskItem>
 {
     Task<IEnumerable<TaskItem>> GetAllAsync();
     IEnumerable<TaskItem> GetAllByFilterAsync(TaskItemFilter? filter = null);

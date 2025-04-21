@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using DotNetTask.Data.Entities;
 using DotNetTask.Data.Enums;
+using DotNetTask.Data.Resources;
 using DotNetTask.Web.ModelView;
 using DotNetTask.Services.Interfaces;
 using DotNetTask.Services.Exceptions;
+using DotNetTask.Web.Utils;
 
 namespace DotNetTask.Web.Controllers;
 
@@ -70,16 +72,27 @@ public class CreateTaskController(ITaskService service) : Controller
     [HttpPost]
     public async Task<IActionResult> Save(CreateTaskViewModel ViewModel)
     {
-        var task = new TaskItem
-        {
-            Title = ViewModel.Title,
-            Description = ViewModel.Description,
-            Status = PrepareStatus(ViewModel),
-            DueDate = ViewModel.DueDate
-        };
-
         try
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = MessageUtils.ExtractModelErrors(ModelState);
+                throw new BusinessException
+                (
+                    ValidationMessages.ValidationFailed,
+                    errors
+                );
+            }
+
+            var task = new TaskItem
+            {
+                Title = ViewModel.Title,
+                Description = ViewModel.Description,
+                Status = PrepareStatus(ViewModel),
+                DueDate = ViewModel.DueDate
+            };
+
+
             if (ViewModel.Mode == "Edit")
             {
                 task.Id = ViewModel.Id;
@@ -96,7 +109,7 @@ public class CreateTaskController(ITaskService service) : Controller
         {
             ViewModel.Error = ex.Message;
             ViewModel.ShowError = true;
-            ViewModel.ErrorFields = ex.Fields;
+            ViewModel.ErrorFields = ex.Errors;
             ViewModel.DueDateFmt = ViewModel.DueDate.ToString("yyyy-MM-dd");
             return View("Index", ViewModel);
         }
