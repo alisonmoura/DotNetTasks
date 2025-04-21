@@ -30,7 +30,7 @@
             @if (Model.ErrorFields.ContainsKey("Title"))
             {
                 <span class="text-danger">
-                    @String.Join(", ", Model.ErrorFields.GetValueOrDefault("Title"))
+                    @String.Join(", ", Model.ErrorFields.GetValueOrDefault("Title") ?? [])
                 </span>
             }
         </div>

@@ -18,7 +18,10 @@ builder.Services
     .AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddScoped<ITaskService, TaskService>();
+// Services
+builder.Services
+    .AddScoped<ITaskService, TaskService>()
+    .AddScoped<ILoginService, LoginService>();
 
 var app = builder.Build();
 
