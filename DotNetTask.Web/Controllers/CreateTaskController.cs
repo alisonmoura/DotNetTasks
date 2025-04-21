@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using DotNetTask.Data.Entities;
 using DotNetTask.Data.Enums;
 using DotNetTask.Data.Resources;
-using DotNetTask.Web.ModelView;
+using DotNetTask.Web.ViewModel;
 using DotNetTask.Services.Interfaces;
 using DotNetTask.Services.Exceptions;
 using DotNetTask.Web.Utils;

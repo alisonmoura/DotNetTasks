@@ -9,5 +9,6 @@ namespace DotNetTask.Data.Resources
     public const string InvalidEmail = "The email address is invalid.";
     public const string RequiredName = "The name is required.";
     public const string MaxLengthName = "The name cannot exceed 100 characters.";
+    public const string RequiredPassword = "The password is required.";
   }
 }

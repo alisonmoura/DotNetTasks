@@ -1,6 +1,6 @@
 using DotNetTask.Data.Enums;
 
-namespace DotNetTask.Web.ModelView;
+namespace DotNetTask.Web.ViewModel;
 
 public class HomeViewModelTask
 {

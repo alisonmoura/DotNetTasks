@@ -2,7 +2,7 @@ using DotNetTask.Data.Entities;
 using DotNetTask.Data.Resources;
 using DotNetTask.Services.Exceptions;
 using DotNetTask.Services.Interfaces;
-using DotNetTask.Web.ModelView;
+using DotNetTask.Web.ViewModel;
 using DotNetTask.Web.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +19,12 @@ public class LoginController(SignInManager<ApplicationUser> signInManager, ILogi
     public IActionResult Index()
     {
         return View(new LoginViewModel());
+    }
+
+    [HttpGet]
+    public IActionResult New()
+    {
+        return View("New", new LoginViewModel());
     }
 
     [HttpPost]

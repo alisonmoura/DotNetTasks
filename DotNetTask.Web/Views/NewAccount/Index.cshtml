@@ -1,18 +1,24 @@
-@model DotNetTask.Web.ViewModel.LoginViewModel
+@model DotNetTask.Web.ViewModel.NewAccountViewModel
 
-@if (Model.ShowError)
-{
-    <div class="alert alert-danger d-flex justify-content-between animate__animated animate__faster animate__fadeInDown"
-        role="alert">
-        @Model.Error
-        <span aria-hidden="true" style="cursor: pointer;" onclick="closeAlert()">&times;</span>
-    </div>
-}
 <div class="text-center">
-    <h1 class="display-4">🔐 Login</h1>
+    <h1 class="display-4">📋 New Account</h1>
 </div>
+
 <div class="container">
     <form class="row" asp-action="Login" method="post">
+        <!-- Name -->
+        <div class="form-group col col-12 col-lg-6 mt-2">
+            <label for="inputName">Name</label>
+            <input type="name"
+                class="form-control animate__animated animate__faster @(@Model.ErrorFields.ContainsKey("Name") ? "border-danger animate__headShake" : "")"
+                id="inputName" placeholder="Name" name="Name" value="@Model.Name">
+            @if (Model.ErrorFields.ContainsKey("Name"))
+            {
+                <span class="text-danger">
+                    @String.Join(", ", Model.ErrorFields.GetValueOrDefault("Name") ?? [])
+                </span>
+            }
+        </div>
         <!-- Email -->
         <div class="form-group col col-12 col-lg-6 mt-2">
             <label for="inputEmail">Email</label>
@@ -39,33 +45,5 @@
                 </span>
             }
         </div>
-        <!-- Done -->
-        <div class="form-check col col-12 d-flex justify-content-end mt-2">
-            <input type="checkbox" class="form-check-input" id="checkRemember" name="RememberMe">
-            <label class="form-check-label ms-2" for="checkRemember">Remember Me</label>
-        </div>
-        <!-- Button -->
-        <div class="d-flex flex-wrap mt-3">
-            <button type="submit" class="btn btn-primary w-100">
-                🔓 Login
-            </button>
-            <button type="button" class="btn btn-light w-100 mt-3"
-                onclick="location.href='@Url.Action("Index", "NewAccount")'">
-                📋 Create Account
-            </button>
-        </div>
     </form>
 </div>
-
-@* @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-} *@
-
-<script>
-    function closeAlert() {
-        document.querySelector(".alert").classList.add("animate__fadeOutUp");
-        setTimeout(() => {
-            document.querySelector(".alert").classList.add("d-none");
-        }, 450);
-    }
-</script>

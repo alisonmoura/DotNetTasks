@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using DotNetTask.Data.Enums;
 using DotNetTask.Data.Resources;
 
-namespace DotNetTask.Web.ModelView;
+namespace DotNetTask.Web.ViewModel;
 
 public class CreateTaskViewModel
 {

@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using DotNetTask.Web.ModelView;
+using DotNetTask.Web.ViewModel;
 using DotNetTask.Services.Filters;
 using DotNetTask.Services.Interfaces;
 

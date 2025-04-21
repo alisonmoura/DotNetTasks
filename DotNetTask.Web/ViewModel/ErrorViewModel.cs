@@ -1,4 +1,4 @@
-namespace DotNetTask.Web.ModelView;
+namespace DotNetTask.Web.ViewModel;
 
 public class ErrorViewModel
 {
