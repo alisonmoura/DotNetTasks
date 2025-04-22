@@ -28,21 +28,21 @@ public class LoginController(SignInManager<ApplicationUser> signInManager, ILogi
     }
 
     [HttpPost]
-    public IActionResult Login(LoginViewModel ViewModel)
+    public async Task<IActionResult> Login(LoginViewModel ViewModel)
     {
         try
         {
             if (!ModelState.IsValid)
             {
-                var errors = MessageUtils.ExtractModelErrors(ModelState);
                 throw new BusinessException
                 (
                     ValidationMessages.ValidationFailed,
-                    errors
+                    MessageUtils.ExtractModelErrors(ModelState)
                 );
             }
 
-            ApplicationUser? user = _service.Login(new ApplicationUser { Email = ViewModel.Email, Password = ViewModel.Password }) ?? throw new BusinessException("User not found.");
+            var result = await _signManager.PasswordSignInAsync(ViewModel.Email, ViewModel.Password, false, false);
+            if (!result.Succeeded) throw new BusinessException("User not found.");
             return RedirectToAction("Index", "Home");
         }
         catch (BusinessException ex)

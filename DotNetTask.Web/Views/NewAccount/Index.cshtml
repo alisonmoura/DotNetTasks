@@ -1,11 +1,20 @@
 @model DotNetTask.Web.ViewModel.NewAccountViewModel
 
+@if (Model.ShowError)
+{
+    <div class="alert alert-danger d-flex justify-content-between animate__animated animate__faster animate__fadeInDown"
+        role="alert">
+        @Model.Error
+        <span aria-hidden="true" style="cursor: pointer;" onclick="closeAlert()">&times;</span>
+    </div>
+}
+
 <div class="text-center">
     <h1 class="display-4">📋 New Account</h1>
 </div>
 
 <div class="container">
-    <form class="row" asp-action="Login" method="post">
+    <form class="row" asp-action="Create" method="post">
         <!-- Name -->
         <div class="form-group col col-12 col-lg-6 mt-2">
             <label for="inputName">Name</label>
@@ -44,6 +53,16 @@
                     @String.Join(", ", Model.ErrorFields.GetValueOrDefault("Password") ?? [])
                 </span>
             }
+        </div>
+        <!-- Button -->
+        <div class="d-flex flex-wrap mt-3">
+            <button type="submit" class="btn btn-primary w-100">
+                💾 Create
+            </button>
+            @* <button type="button" class="btn btn-light w-100 mt-3"
+                onclick="location.href='@Url.Action("Index", "NewAccount")'">
+                📋 Create Account
+            </button> *@
         </div>
     </form>
 </div>

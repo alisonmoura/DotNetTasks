@@ -21,7 +21,8 @@ builder.Services
 // Services
 builder.Services
     .AddScoped<ITaskService, TaskService>()
-    .AddScoped<ILoginService, LoginService>();
+    .AddScoped<ILoginService, LoginService>()
+    .AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
