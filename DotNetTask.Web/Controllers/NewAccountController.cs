@@ -61,13 +61,13 @@ public class NewAccountController(IUserService service) : Controller
             }
             if (passwordErrors.Count > 0) ViewModel.ErrorFields.Add("Password", passwordErrors);
             ViewModel.ShowError = true;
-            ViewModel.Error = ValidationMessages.ValidationFailed;
+            ViewModel.Message = ValidationMessages.ValidationFailed;
             return View("Index", ViewModel);
         }
         catch (BusinessException ex)
         {
             ViewModel.ShowError = true;
-            ViewModel.Error = ex.Message;
+            ViewModel.Message = ex.Message;
             ViewModel.ErrorFields = ex.Errors;
             return View("Index", ViewModel);
         }

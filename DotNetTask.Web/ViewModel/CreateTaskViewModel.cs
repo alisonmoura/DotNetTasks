@@ -4,7 +4,7 @@ using DotNetTask.Data.Resources;
 
 namespace DotNetTask.Web.ViewModel;
 
-public class CreateTaskViewModel
+public class CreateTaskViewModel : BaseViewModel
 {
     public int? Id { get; set; }
 
@@ -18,7 +18,4 @@ public class CreateTaskViewModel
     public bool EditMode { get; set; } = false;
     public string Mode { get; set; } = "New"; // New, Edit
     public Array StatusOptions { get; set; } = Enum.GetValues(typeof(TaskStatusEnum));
-    public bool ShowError { get; set; } = false;
-    public string Error { get; set; } = "";
-    public Dictionary<string, List<string>> ErrorFields { get; set; } = [];
 }

@@ -11,5 +11,6 @@ namespace DotNetTask.Data.Resources
     public const string MinLengthName = "The name should have at least 5 characters.";
     public const string MaxLengthName = "The name cannot exceed 100 characters.";
     public const string RequiredPassword = "The password is required.";
+    public const string LoginToProceed = "Log in to continue the action";
   }
 }

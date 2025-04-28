@@ -1,10 +1,10 @@
 @model DotNetTask.Web.ViewModel.LoginViewModel
 
-@if (Model.ShowError)
+@if (Model.ShowError || Model.ShowInfo)
 {
-    <div class="alert alert-danger d-flex justify-content-between animate__animated animate__faster animate__fadeInDown"
+    <div class="alert @(Model.ShowError ? "alert-danger" : "") @(Model.ShowInfo ? "alert-info" : "") d-flex justify-content-between animate__animated animate__faster animate__fadeInDown"
         role="alert">
-        @Model.Error
+        @Model.Message
         <span aria-hidden="true" style="cursor: pointer;" onclick="closeAlert()">&times;</span>
     </div>
 }

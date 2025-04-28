@@ -6,9 +6,11 @@ using DotNetTask.Web.ViewModel;
 using DotNetTask.Services.Interfaces;
 using DotNetTask.Services.Exceptions;
 using DotNetTask.Web.Utils;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DotNetTask.Web.Controllers;
 
+[Authorize]
 public class CreateTaskController(ITaskService service) : Controller
 {
     private readonly ITaskService _service = service;
@@ -107,7 +109,7 @@ public class CreateTaskController(ITaskService service) : Controller
         }
         catch (BusinessException ex)
         {
-            ViewModel.Error = ex.Message;
+            ViewModel.Message = ex.Message;
             ViewModel.ShowError = true;
             ViewModel.ErrorFields = ex.Errors;
             ViewModel.DueDateFmt = ViewModel.DueDate.ToString("yyyy-MM-dd");

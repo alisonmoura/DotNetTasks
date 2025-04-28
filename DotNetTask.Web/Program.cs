@@ -24,6 +24,12 @@ builder.Services
     .AddScoped<ILoginService, LoginService>()
     .AddScoped<IUserService, UserService>();
 
+// Cookies config
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Login";
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,6 +46,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",

@@ -16,9 +16,15 @@ public class LoginController(SignInManager<ApplicationUser> signInManager, ILogi
     private readonly ILoginService _service = service;
 
     [HttpGet]
-    public IActionResult Index()
+    public IActionResult Index([FromQuery] string? ReturnUrl)
     {
-        return View(new LoginViewModel());
+        var viewModel = new LoginViewModel();
+        if (!string.IsNullOrEmpty(ReturnUrl))
+        {
+            viewModel.ShowInfo = true;
+            viewModel.Message = ValidationMessages.LoginToProceed;
+        }
+        return View(viewModel);
     }
 
     [HttpGet]
@@ -47,7 +53,7 @@ public class LoginController(SignInManager<ApplicationUser> signInManager, ILogi
         }
         catch (BusinessException ex)
         {
-            ViewModel.Error = ex.Message;
+            ViewModel.Message = ex.Message;
             ViewModel.ShowError = true;
             ViewModel.ErrorFields = ex.Errors;
             return View("Index", ViewModel);

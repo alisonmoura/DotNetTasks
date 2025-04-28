@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DotNetTask.Web.ViewModel;
 
-public class LoginViewModel
+public class LoginViewModel : BaseViewModel
 {
     [Required]
     [EmailAddress]
@@ -14,9 +14,4 @@ public class LoginViewModel
 
     public bool RememberMe { get; set; }
 
-    public bool ShowError { get; set; } = false;
-
-    public string Error { get; set; } = "";
-
-    public Dictionary<string, List<string>> ErrorFields { get; set; } = [];
 }
