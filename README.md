@@ -42,3 +42,13 @@ dotnet watch --project DotNetTask.Web
 3. In the `RUN AND DEBUG` select option, sele the ".Net Core Attach (web)" option. Then click on the play button.
 4. You will be asked to select a processo to attach to, in the search box type: `DotNetTask.Web` and select the process shown as result
 5. Done! Now just place the break point and start debuging!
+
+## MIGRATIONS
+
+```bash
+dotnet ef migrations add InitialMigration --project ../DotNetTask.Data --startup-project .
+```
+
+```bash
+dotnet ef database update --project ../DotNetTask.Data --startup-project .
+```
