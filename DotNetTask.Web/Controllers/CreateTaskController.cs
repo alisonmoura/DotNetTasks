@@ -19,6 +19,7 @@ public class CreateTaskController(ITaskService service) : Controller
     public async Task<IActionResult> Index()
     {
         int? lastId = await _service.GetLastIdAsync();
+        // Console.WriteLine("========= IsAuthenticated: " + User.Identity.IsAuthenticated + " ==========");
 
         return View(new CreateTaskViewModel
         {
